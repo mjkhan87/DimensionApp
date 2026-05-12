@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Private Network Dimensioning Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Private Network</p>
+          <h1>Dimensioning Calculator</h1>
+        </div>
+        <nav class="tabs" aria-label="Calculator modules">
+          <button class="tab is-active" type="button" data-tab="scenarios">Scenarios</button>
+          <button class="tab" type="button" data-tab="sectors">Required Sectors</button>
+          <button class="tab" type="button" data-tab="devices">Devices</button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="view is-active" id="scenarios-view">
+          <div class="layout two-column">
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Network Inputs</h2>
+                <button class="ghost-button" type="button" id="reset-scenarios">Reset</button>
+              </div>
+              <div class="form-grid compact">
+                <label>
+                  <span>Total sectors</span>
+                  <input id="scenario-sectors" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>UL per sector (Mbps)</span>
+                  <input id="scenario-ul" type="number" min="0" step="0.1" />
+                </label>
+                <label>
+                  <span>DL per sector (Mbps)</span>
+                  <input id="scenario-dl" type="number" min="0" step="0.1" />
+                </label>
+              </div>
+            </section>
+
+            <section class="summary-strip">
+              <article>
+                <span>Available UL Capacity (Mbps)</span>
+                <strong id="scenario-total-ul">0 Mbps</strong>
+              </article>
+              <article>
+                <span>Available DL Capacity (Mbps)</span>
+                <strong id="scenario-total-dl">0 Mbps</strong>
+              </article>
+            </section>
+          </div>
+
+          <section class="panel assumptions-panel">
+            <div class="panel-heading">
+              <h2>Assumptions</h2>
+            </div>
+            <ul class="assumptions-list">
+              <li>Scenario capacity is calculated as total sectors multiplied by uplink or downlink capacity per sector.</li>
+              <li>Average device bitrates come from the editable Devices database.</li>
+              <li>Spare capacity is floored at zero when demand exceeds available capacity.</li>
+              <li>Charts use the selected scenario device types and quantities shown below.</li>
+            </ul>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Scenario Device Types</h2>
+              <button class="primary-button" type="button" id="add-scenario-device">Add Device Type</button>
+            </div>
+            <div class="table-wrap">
+              <table class="config-table">
+                <thead>
+                  <tr>
+                    <th>Chart Label</th>
+                    <th>Device Type</th>
+                    <th>Configuration</th>
+                    <th class="icon-col"></th>
+                  </tr>
+                </thead>
+                <tbody id="scenario-device-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Scenario Mix</h2>
+              <p>Quantities recalculate the charts immediately.</p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead id="scenario-table-head"></thead>
+                <tbody id="scenario-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="chart-grid">
+            <section class="panel chart-panel">
+              <div class="panel-heading">
+                <h2>Uplink Capacity</h2>
+              </div>
+              <canvas id="ul-chart" width="980" height="420"></canvas>
+            </section>
+            <section class="panel chart-panel">
+              <div class="panel-heading">
+                <h2>Downlink Capacity</h2>
+              </div>
+              <canvas id="dl-chart" width="980" height="420"></canvas>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="sectors-view">
+          <div class="layout two-column">
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Capacity Assumptions</h2>
+                <button class="ghost-button" type="button" id="reset-sector-mix">Reset</button>
+              </div>
+              <div class="form-grid compact">
+                <label>
+                  <span>UL per sector (Mbps)</span>
+                  <input id="required-ul" type="number" min="0" step="0.1" />
+                </label>
+                <label>
+                  <span>DL per sector (Mbps)</span>
+                  <input id="required-dl" type="number" min="0" step="0.1" />
+                </label>
+                <label>
+                  <span>Sectors per site</span>
+                  <input id="sectors-per-site" type="number" min="1" step="1" />
+                </label>
+              </div>
+            </section>
+
+            <section class="summary-strip output-strip">
+              <article>
+                <span>Total UL Needed</span>
+                <strong id="required-total-ul">0 Mbps</strong>
+              </article>
+              <article>
+                <span>Total DL Needed</span>
+                <strong id="required-total-dl">0 Mbps</strong>
+              </article>
+              <article>
+                <span>Sectors Needed</span>
+                <strong id="required-sectors">0</strong>
+              </article>
+              <article>
+                <span>Sites Needed</span>
+                <strong id="required-sites">0</strong>
+              </article>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Device Mix</h2>
+              <button class="primary-button" type="button" id="add-sector-row">Add Row</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Device Type</th>
+                    <th>Quantity</th>
+                    <th>Configuration</th>
+                    <th>UL Bitrate</th>
+                    <th>DL Bitrate</th>
+                    <th>Total UL</th>
+                    <th>Total DL</th>
+                    <th class="icon-col"></th>
+                  </tr>
+                </thead>
+                <tbody id="sector-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="devices-view">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Device Database</h2>
+                <p>Average bitrates drive the current modules. Peak fields are retained for future modules.</p>
+              </div>
+              <div class="button-row">
+                <button class="ghost-button" type="button" id="reset-devices">Reset</button>
+                <button class="primary-button" type="button" id="add-device">Add Device</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Device</th>
+                    <th>Resolution</th>
+                    <th>Codec</th>
+                    <th>Configuration</th>
+                    <th>Avg UL</th>
+                    <th>Avg DL</th>
+                    <th>Peak UL</th>
+                    <th>Peak DL</th>
+                    <th class="icon-col"></th>
+                  </tr>
+                </thead>
+                <tbody id="device-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+      <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

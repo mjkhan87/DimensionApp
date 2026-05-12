@@ -1,0 +1,10 @@
+# Local verification and scratch files
+inspect_workbook.py
+smoke_test.js
+preview*.png
+*.xlsx
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
