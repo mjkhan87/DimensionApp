@@ -233,6 +233,20 @@ button:focus-visible {
   border-right: 0;
 }
 
+.summary-strip .capacity-output {
+  border-top: 3px solid transparent;
+}
+
+.summary-strip .capacity-output-ul {
+  background: #eaf6f1;
+  border-top-color: var(--good);
+}
+
+.summary-strip .capacity-output-dl {
+  background: #fff3df;
+  border-top-color: var(--accent);
+}
+
 .summary-strip span {
   display: block;
   color: var(--muted);
@@ -246,6 +260,14 @@ button:focus-visible {
   color: var(--brand-dark);
   font-size: clamp(1.25rem, 2.2vw, 1.9rem);
   line-height: 1.05;
+}
+
+.capacity-output-ul strong {
+  color: var(--good);
+}
+
+.capacity-output-dl strong {
+  color: #9a5d09;
 }
 
 .output-strip strong {
