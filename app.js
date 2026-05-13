@@ -167,14 +167,20 @@ function renderScenarioDevices() {
 }
 
 function renderScenarioTable() {
+  const quantityColspan = state.scenario.deviceTypes.length;
   $("scenario-table-head").innerHTML = `
     <tr>
-      <th>Scenario</th>
-      ${state.scenario.deviceTypes.map((item) => `<th>${escapeHtml(item.label)}</th>`).join("")}
-      <th>UL Used</th>
-      <th>UL Spare</th>
-      <th>DL Used</th>
-      <th>DL Spare</th>
+      <th class="scenario-col"></th>
+      <th class="quantity-group" colspan="${quantityColspan}">Quantity</th>
+      <th class="metric-group" colspan="4"></th>
+    </tr>
+    <tr>
+      <th class="scenario-col">Scenario</th>
+      ${state.scenario.deviceTypes.map((item) => `<th class="quantity-col">${escapeHtml(item.label)}</th>`).join("")}
+      <th class="metric-col number">UL Used</th>
+      <th class="metric-col number">UL Spare</th>
+      <th class="metric-col number">DL Used</th>
+      <th class="metric-col number">DL Spare</th>
     </tr>
   `;
   $("scenario-table-body").innerHTML = state.scenario.rows
@@ -182,12 +188,12 @@ function renderScenarioTable() {
       <tr>
         <td class="scenario-name">Scenario ${rowIndex + 1}</td>
         ${state.scenario.deviceTypes
-          .map((_, deviceIndex) => `<td><input data-scenario-quantity="${deviceIndex}" data-index="${rowIndex}" type="number" min="0" step="1" value="${num(row.quantities[deviceIndex])}"></td>`)
+          .map((_, deviceIndex) => `<td class="quantity-cell"><input class="scenario-quantity-input" data-scenario-quantity="${deviceIndex}" data-index="${rowIndex}" type="number" min="0" max="999" step="1" value="${num(row.quantities[deviceIndex])}"></td>`)
           .join("")}
-        <td class="number output" id="scenario-ul-used-${rowIndex}">0</td>
-        <td class="number output" id="scenario-ul-spare-${rowIndex}">0</td>
-        <td class="number output" id="scenario-dl-used-${rowIndex}">0</td>
-        <td class="number output" id="scenario-dl-spare-${rowIndex}">0</td>
+        <td class="metric-cell number output" id="scenario-ul-used-${rowIndex}">0</td>
+        <td class="metric-cell number output" id="scenario-ul-spare-${rowIndex}">0</td>
+        <td class="metric-cell number output" id="scenario-dl-used-${rowIndex}">0</td>
+        <td class="metric-cell number output" id="scenario-dl-spare-${rowIndex}">0</td>
       </tr>
     `)
     .join("");
@@ -283,10 +289,10 @@ function recalc() {
   $("scenario-total-dl").textContent = formatMbps(availableDl);
 
   scenarios.forEach((row, index) => {
-    $(`scenario-ul-used-${index}`).textContent = numberFmt.format(row.ulUsed);
-    $(`scenario-ul-spare-${index}`).textContent = numberFmt.format(row.spareUl);
-    $(`scenario-dl-used-${index}`).textContent = numberFmt.format(row.dlUsed);
-    $(`scenario-dl-spare-${index}`).textContent = numberFmt.format(row.spareDl);
+    $(`scenario-ul-used-${index}`).textContent = formatMbps(row.ulUsed);
+    $(`scenario-ul-spare-${index}`).textContent = formatMbps(row.spareUl);
+    $(`scenario-dl-used-${index}`).textContent = formatMbps(row.dlUsed);
+    $(`scenario-dl-spare-${index}`).textContent = formatMbps(row.spareDl);
   });
 
   drawCapacityChart($("ul-chart"), scenarios, "ul");

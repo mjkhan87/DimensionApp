@@ -23,6 +23,14 @@
       <main>
         <section class="view is-active" id="scenarios-view">
           <p class="module-description">Calculate used and spare capacity based on network configuration and device mix.</p>
+
+          <section class="panel notes-panel">
+            <div class="panel-heading">
+              <h2>Notes</h2>
+            </div>
+            <p class="notes-copy">Note: The calculators are intended for rough order of dimensioning for use in preliminary analysis, ROMs, customer education, and early stage proposal work. They do not replace a detailed RF and capacity analysis using design tools (Eino, Infovista, etc.) that take device location, radio location, antenna characteristics, signal quality (SINR) and other network parameters into consideration.</p>
+          </section>
+
           <div class="layout two-column">
             <section class="panel">
               <div class="panel-heading">
@@ -45,24 +53,20 @@
               </div>
             </section>
 
-            <section class="summary-strip">
-              <article class="capacity-output capacity-output-ul">
-                <span>Available UL Capacity (Mbps)</span>
-                <strong id="scenario-total-ul">0 Mbps</strong>
-              </article>
-              <article class="capacity-output capacity-output-dl">
-                <span>Available DL Capacity (Mbps)</span>
-                <strong id="scenario-total-dl">0 Mbps</strong>
-              </article>
+            <section class="summary-strip network-capacity-summary">
+              <h2>Total Network Capacity</h2>
+              <div class="capacity-grid">
+                <article class="capacity-output capacity-output-ul">
+                  <span>Available UL (Mbps)</span>
+                  <strong id="scenario-total-ul">0 Mbps</strong>
+                </article>
+                <article class="capacity-output capacity-output-dl">
+                  <span>Available DL (Mbps)</span>
+                  <strong id="scenario-total-dl">0 Mbps</strong>
+                </article>
+              </div>
             </section>
           </div>
-
-          <section class="panel assumptions-panel">
-            <div class="panel-heading">
-              <h2>Assumptions</h2>
-            </div>
-            <p class="assumptions-copy">Note: The calculators are intended for rough order of dimensioning for use in preliminary analysis, ROMs, customer education, and early stage proposal work. They do not replace a detailed RF and capacity analysis using design tools (Eino, Infovista, etc.) that take device location, radio location, antenna characteristics, signal quality (SINR) and other network parameters into consideration.</p>
-          </section>
 
           <section class="panel">
             <div class="panel-heading">
@@ -90,7 +94,7 @@
               <p>Quantities recalculate the charts immediately.</p>
             </div>
             <div class="table-wrap">
-              <table>
+              <table class="scenario-mix-table">
                 <thead id="scenario-table-head"></thead>
                 <tbody id="scenario-table-body"></tbody>
               </table>
@@ -100,13 +104,13 @@
           <div class="chart-grid">
             <section class="panel chart-panel">
               <div class="panel-heading">
-                <h2>Uplink Capacity</h2>
+                <h2>Uplink Capacity (Mbps)</h2>
               </div>
               <canvas id="ul-chart" width="980" height="420"></canvas>
             </section>
             <section class="panel chart-panel">
               <div class="panel-heading">
-                <h2>Downlink Capacity</h2>
+                <h2>Downlink Capacity (Mbps)</h2>
               </div>
               <canvas id="dl-chart" width="980" height="420"></canvas>
             </section>
