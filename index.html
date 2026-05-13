@@ -15,13 +15,14 @@
         </div>
         <nav class="tabs" aria-label="Calculator modules">
           <button class="tab is-active" type="button" data-tab="scenarios">Scenarios</button>
-          <button class="tab" type="button" data-tab="sectors">Required Sectors</button>
+          <button class="tab" type="button" data-tab="sectors">Required Sites</button>
           <button class="tab" type="button" data-tab="devices">Devices</button>
         </nav>
       </header>
 
       <main>
         <section class="view is-active" id="scenarios-view">
+          <p class="module-description">Calculate used and spare capacity based on network configuration and device mix.</p>
           <div class="layout two-column">
             <section class="panel">
               <div class="panel-heading">
@@ -60,12 +61,7 @@
             <div class="panel-heading">
               <h2>Assumptions</h2>
             </div>
-            <ul class="assumptions-list">
-              <li>Scenario capacity is calculated as total sectors multiplied by uplink or downlink capacity per sector.</li>
-              <li>Average device bitrates come from the editable Devices database.</li>
-              <li>Spare capacity is floored at zero when demand exceeds available capacity.</li>
-              <li>Charts use the selected scenario device types and quantities shown below.</li>
-            </ul>
+            <p class="assumptions-copy">Note: The calculators are intended for rough order of dimensioning for use in preliminary analysis, ROMs, customer education, and early stage proposal work. They do not replace a detailed RF and capacity analysis using design tools (Fino, Infovista, etc.) that take device location, radio location, antenna characteristics, signal quality (SINR) and other network parameters into consideration.</p>
           </section>
 
           <section class="panel">
@@ -118,6 +114,7 @@
         </section>
 
         <section class="view" id="sectors-view">
+          <p class="module-description">Calculate number of sites needed based on device mix.</p>
           <div class="layout two-column">
             <section class="panel">
               <div class="panel-heading">
@@ -142,11 +139,11 @@
 
             <section class="summary-strip output-strip">
               <article>
-                <span>Total UL Needed</span>
+                <span>Total UL Capacity Needed</span>
                 <strong id="required-total-ul">0 Mbps</strong>
               </article>
               <article>
-                <span>Total DL Needed</span>
+                <span>Total DL Capacity Needed</span>
                 <strong id="required-total-dl">0 Mbps</strong>
               </article>
               <article>
@@ -174,8 +171,8 @@
                     <th>Configuration</th>
                     <th>UL Bitrate</th>
                     <th>DL Bitrate</th>
-                    <th>Total UL</th>
-                    <th>Total DL</th>
+                    <th>Total UL Capacity</th>
+                    <th>Total DL Capacity</th>
                     <th class="icon-col"></th>
                   </tr>
                 </thead>

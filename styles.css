@@ -134,6 +134,12 @@ h2 {
   display: block;
 }
 
+.module-description {
+  margin: -4px 0 16px;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
 .layout {
   display: grid;
   gap: 16px;
@@ -319,14 +325,11 @@ td select {
   box-shadow: none;
 }
 
-.assumptions-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 24px;
+.assumptions-copy {
   margin: 0;
-  padding-left: 18px;
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .chart-tooltip {
@@ -379,8 +382,7 @@ td select {
 
   .form-grid.compact,
   .device-selectors,
-  .summary-strip,
-  .assumptions-list {
+  .summary-strip {
     grid-template-columns: 1fr;
   }
 
